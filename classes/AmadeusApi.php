@@ -1,9 +1,5 @@
 <?php
 
-require_once "../includes/config.php";
-require_once "../ajax/search_flight_form.php";
-
-
 /*
     curl "https://test.api.amadeus.com/v1/security/oauth2/token" \
     -H "Content-Type: application/x-www-form-urlencoded" \
@@ -112,6 +108,8 @@ require_once "../ajax/search_flight_form.php";
 
 */
 
+require_once "../includes/config.php";
+
 class AmadeusApi {
 
     private $client_id = AMADEUS_API_KEY;
@@ -130,7 +128,6 @@ class AmadeusApi {
     // Per controllare se il token esiste ed è ancora valido
     private function loadToken() {
         
-        
         if (file_exists($this->token_file)) {
             $data = json_decode(file_get_contents($this->token_file), true);
             if ($data && isset($data["access_token"]) && time() < $data["expires_at"]) {
@@ -140,12 +137,14 @@ class AmadeusApi {
             }
         }
         // Se il token non è valido, ne genera uno nuovo
-        $this->authenticate(); 
+        $this->authenticate();
+
     }
 
 
     // Per ottenere il token di accesso e salvarlo in un file JSON
     private function authenticate() {
+
         $url = "https://test.api.amadeus.com/v1/security/oauth2/token";
         $data = [
             "grant_type"    => "client_credentials",
@@ -187,7 +186,8 @@ class AmadeusApi {
     // Ricerca voli
     public function searchFlights($origin, $destination, $date) {
 
-        $this->ensureValidToken(); // Controlla se il token è valido
+        // Controllo validità token
+        $this->ensureValidToken(); 
 
         $url = "https://test.api.amadeus.com/v2/shopping/flight-offers";
         $params = http_build_query([

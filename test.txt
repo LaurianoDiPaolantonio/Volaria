@@ -1,7 +1,0 @@
-if field(flight_type) == "With Layover" then (random(["LHR", "SFO", "DXB", "ORD"])), else "" end
-
-
-if ("flight_type") == "layover" then (["LHR", "SFO", "DXB", "ORD"].sample) else "" end
-
-
-if flight_type = "layover" then random("LHR", "SFO", "DXB", "ORD") else "" end

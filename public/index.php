@@ -5,39 +5,7 @@ ini_set('display_errors', 1);
 session_start();
 
 require_once '../includes/config.php';
-//require_once "../classes/AmadeusApi.php";
 
-/*
-    Generalmente si organizzano i file PHP in cartelle separate per mantenere il progetto pulito e strutturato. Ecco una tipica organizzazione dei file in un progetto PHP:
-    
-    /mio_progetto
-    │── /public          # Cartella pubblica accessibile dal web server
-    │   ├── index.php    # Pagina principale
-    │   ├── style.css    # Foglio di stile
-    │   ├── script.js    # Script JavaScript
-    │── /includes        # File PHP riutilizzabili (non accessibili direttamente dal web)
-    │   ├── header.php   # Intestazione comune
-    │   ├── footer.php   # Footer comune
-    │   ├── config.php   # Configurazione globale (DB, costanti, ecc.)
-    │── /classes         # Classi PHP per la programmazione ad oggetti
-    │   ├── User.php     # Classe per gestire gli utenti
-    │   ├── Database.php # Classe per la gestione del database
-    │── /functions       # Funzioni generiche
-    │   ├── auth.php     # Funzioni di autenticazione
-    │   ├── helpers.php  # Funzioni di supporto
-    │── /pages           # Pagine del sito (richiamate da index.php o direttamente)
-    │   ├── login.php    # Pagina di login
-    │   ├── dashboard.php# Pagina utente dopo il login
-    │── /assets          # File statici (immagini, CSS, JS)
-    │   ├── /css
-    │   ├── /js
-    │   ├── /img
-    │── /uploads         # Cartella per i file caricati dagli utenti (se necessario)
-    │── .htaccess        # Configurazione Apache se usi Apache
-    │── composer.json    # Se usi Composer per le dipendenze PHP
-    │── README.md        # Info sul progetto
-
-*/
 ?>
 
 <!DOCTYPE html>

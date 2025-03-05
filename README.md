@@ -1,42 +1,25 @@
-## Installazione del Database
-Dopo aver clonato il progetto, importa il database con:
+# Flight Booking Website
 
-### Opzione 1: Con phpMyAdmin
-1. Apri phpMyAdmin e seleziona il database `voli_db`
-2. Vai su **Importa** e scegli `database_dump.sql`
-3. Clicca su **Esegui**
+A demo flight booking website that allows users to search for flights based on selected criteria. The project integrates the Amadeus API to retrieve real-time flight data.
 
+## Features
 
-## Come ho collegato tabelle con chiavi relazionali
+- User-friendly flight search with options for departure, destination, dates, and number of travelers.
+- Fetch API is used to retrieve data from a PHP backend, which processes user inputs and queries the Amadeus API.
+- Search results are dynamically displayed based on user-selected criteria.
+- Responsive design for a seamless user experience across devices.
 
-1. PRIMA QUERY
+# Database Setup
 
--- Aggiungi la colonna country_id nella tabella airports
-ALTER TABLE airports ADD COLUMN country_id INT AFTER country;
+After cloning the project, import the database using the following steps:
 
--- Popola la colonna country_id con i dati dalla tabella countries
-UPDATE airports a 
-JOIN countries c ON a.country = c.country_name 
-SET a.country_id = c.id;
+## Option 1: Using phpMyAdmin
 
--- Rimuovi la colonna country
-ALTER TABLE airports DROP COLUMN country;
+1. Open phpMyAdmin and select the `voli_db` database.
+2. Go to the **Import** tab and choose the `Volaria.sql` file.
+3. Click **Go** to import the database.
 
--- Aggiungi il vincolo di chiave esterna per country_id
-ALTER TABLE airports ADD FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE;
+## Database Structure
 
-2. SECONDA QUERY
+The database includes tables for airports, airlines, and countries. Relational keys are used to link the tables, ensuring data integrity and enabling efficient queries for flight and airport information.
 
--- Aggiungi la colonna country_id nella tabella airlines
-ALTER TABLE airlines ADD COLUMN country_id INT AFTER country;
-
--- Popola la colonna country_id con i dati dalla tabella countries
-UPDATE airlines a 
-JOIN countries c ON a.country = c.country_name 
-SET a.country_id = c.id;
-
--- Rimuovi la colonna country
-ALTER TABLE airlines DROP COLUMN country;
-
--- Aggiungi il vincolo di chiave esterna per country_id
-ALTER TABLE airlines ADD FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE;

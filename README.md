@@ -1,5 +1,5 @@
 # Flight Booking Website
-
+**Work in progress**
 A demo flight booking website that allows users to search for flights based on selected criteria. The project integrates the Amadeus API to retrieve real-time flight data.
 
 ## Features

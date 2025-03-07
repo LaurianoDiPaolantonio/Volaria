@@ -32,9 +32,9 @@
                     <img src="<?= IMG_PATH ?>burger-icon.svg" alt="menu" class="img-black header-icon">
                     <img src="<?= IMG_PATH ?>burger-icon-white.svg" alt="menu" class="img-white header-icon">
                     <nav class="burger">
-                        <a href="">Servizi</a>
-                        <a href="">Contatti</a>
-                        <a href="">Assistenza</a>
+                        <a href="">Services</a>
+                        <a href="">Contacts</a>
+                        <a href="">Support</a>
                     </nav>
                 </button>
             </li>

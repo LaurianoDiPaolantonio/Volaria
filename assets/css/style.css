@@ -58,10 +58,6 @@ a {
     font-style: normal;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
 button {
     border: none;
     border-radius: 0.5rem;
@@ -359,6 +355,13 @@ form.search_flights{
 }
 
 
+/* ======================= FLIGHTS RESULTS PAGE ======================= */
+
+section.flights-results-container {
+    padding: 50px;
+}
+
+
 
 /* ======================= FOOTER ======================= */
 
@@ -369,6 +372,10 @@ footer {
     padding: 50px 50px 10px 50px;
     background-color: var(--space-cadet);
     color: white;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }
 
 .footer-links-container {
@@ -386,6 +393,7 @@ footer {
     width: 100%;
     text-align: center;
 }
+
 
 
 

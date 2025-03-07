@@ -5,8 +5,7 @@ A demo flight booking website that allows users to search for flights based on s
 ## Features
 
 - User-friendly flight search with options for departure, destination, dates, and number of travelers.
-- Fetch API is used to retrieve data from a PHP backend, which processes user inputs and queries the Amadeus API.
-- Search results are dynamically displayed based on user-selected criteria.
+- Fetch API is used to retrieve data from a PHP backend and search results are dynamically displayed based on user-selected criteria.
 - Responsive design for a seamless user experience across devices.
 
 # Database Setup

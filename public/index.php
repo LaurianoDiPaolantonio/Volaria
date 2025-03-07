@@ -6,13 +6,8 @@ session_start();
 
 require_once '../includes/config.php';
 
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<?php
     
-    require_once '../includes/head.php';
+require_once '../includes/head.php';
     
 ?>
 <body>
@@ -39,12 +34,12 @@ require_once '../includes/config.php';
 
 
             ?>
-            <form action="../ajax/search_flight_form.php" method="POST" class="search_flights">
+            <form action="../pages/flights-results.php" method="GET" class="search_flights">
 
                 <div class="flight-select">
                     <div class="flight-select-input">
                         <label for="departure">From</label>
-                        <input type="text" id="departure" name="departure" placeholder="Search airport, city" autocomplete="off">
+                        <input type="text" id="departure" name="departure" placeholder="Search airport, city" autocomplete="off" required>
                         <div id="autocomplete-departure" class="dropdown-flights"></div>
                     </div>
                     <div class="form-check form-check-inline mt-2">
@@ -56,7 +51,7 @@ require_once '../includes/config.php';
                 <div class="flight-select">
                     <div class="flight-select-input">
                         <label for="arrival">To</label>
-                        <input type="text" id="arrival" name="arrival" placeholder="Search airport, city" autocomplete="off">
+                        <input type="text" id="arrival" name="arrival" placeholder="Search airport, city" autocomplete="off" required>
                         <div id="autocomplete-arrival" class="dropdown-flights"></div>
                     </div>
                     <div class="form-check form-check-inline mt-2">
@@ -68,7 +63,7 @@ require_once '../includes/config.php';
                 <div class="flight-select">
                     <div class="flight-select-input">
                         <div class="dates-container departure-date">
-                            <label for="departure_date">Departure</label>
+                            <label for="departure_date">Depart</label>
                             <input type="date" id="departure_date" name="departure_date" required>
                         </div>
                     </div>
@@ -87,7 +82,7 @@ require_once '../includes/config.php';
                     <div class="flight-select-input">
                         <div class="searchControls-traveler">
                             <label for="travelers">Travelers</label>
-                            <input type="number" id="travelers" name="travelers" min="1" max="10" required>
+                            <input type="number" id="travelers" name="travelers" min="1" max="10" value="1" required>
                         </div>
                     </div>
                 </div>
@@ -116,7 +111,7 @@ require_once '../includes/config.php';
     <?php
     
     require_once '../includes/footer.php';
-    
+
     ?>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

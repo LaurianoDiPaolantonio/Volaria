@@ -3,6 +3,8 @@
 
 // Si interroga il database tramite fetch_API/search_flight_form.php
 
+// Da aggiungere: caratteri combacianti in grassetto
+
 setupAutocomplete("departure", "autocomplete-departure");
 setupAutocomplete("arrival", "autocomplete-arrival");
 closeListIfOut("departure", "autocomplete-departure");
@@ -31,12 +33,8 @@ function setupAutocomplete(inputId, listId) {
                 let div_child = document.createElement("div");
                 div_child.classList.add("autocomplete-item");
 
-                // Se iata_code non è null, si aggiunge al risultato di ricerca
-                if (airport.iata_code) {
-                    div_child.textContent = airport.name+" ("+airport.iata_code+")";
-                } else {
-                    div_child.textContent = airport.name;
-                }
+                // si aggiunge al risultato di ricerca
+                div_child.textContent = airport.name+" ("+airport.iata_code+")";
 
                 // Se city non è null, si aggiunge al risultato di ricerca stylizzato successivamente da CSS
                 if (airport.city) {

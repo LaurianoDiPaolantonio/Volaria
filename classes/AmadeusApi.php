@@ -184,16 +184,17 @@ class AmadeusApi {
     }
 
     // Ricerca voli
-    public function searchFlights($origin, $destination, $date) {
+    public function searchFlights($origin, $destination, $date, $travelers) {
 
         // Controllo validità token
         $this->ensureValidToken(); 
 
         $url = "https://test.api.amadeus.com/v2/shopping/flight-offers";
         $params = http_build_query([
+            "adults" => $travelers,
+            "departureDate" => $date,
             "originLocationCode" => $origin,
             "destinationLocationCode" => $destination,
-            "departureDate" => $date,
         ]);
 
         $ch = curl_init($url . "?" . $params);

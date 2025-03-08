@@ -1,10 +1,18 @@
 
 /* ---------------- BURGER MENU -------------- */
 
+// Toggle del menu
 $('button.burger-menu').click(function() {
 
     $('.burger').toggleClass('open');
 
+});
+
+// Chiude menu se utente clicca fuori
+$(document).click(function(event) {
+    if (!$(event.target).closest('.burger, .burger-menu').length) {
+        $('.burger').removeClass('open');
+    }
 });
 
 

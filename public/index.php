@@ -40,6 +40,9 @@ require_once '../includes/head.php';
                     <div class="flight-select-input">
                         <label for="departure">From</label>
                         <input type="text" id="departure" name="departure" placeholder="Search airport, city" autocomplete="off" required>
+
+                        <input type="hidden" id="departure_iata" name="from">
+
                         <div id="autocomplete-departure" class="dropdown-flights"></div>
                     </div>
                     <div class="form-check form-check-inline mt-2">
@@ -52,6 +55,9 @@ require_once '../includes/head.php';
                     <div class="flight-select-input">
                         <label for="arrival">To</label>
                         <input type="text" id="arrival" name="arrival" placeholder="Search airport, city" autocomplete="off" required>
+
+                        <input type="hidden" id="arrival_iata" name="to">
+
                         <div id="autocomplete-arrival" class="dropdown-flights"></div>
                     </div>
                     <div class="form-check form-check-inline mt-2">
@@ -88,7 +94,7 @@ require_once '../includes/head.php';
                 </div>
 
                 <div class="search-flights-button">
-                    <button type="submit">Search</button>
+                    <button type="submit" id="search-flights-button">Search</button>
                 </div>
                 
 

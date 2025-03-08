@@ -5,12 +5,12 @@
 
 // Da aggiungere: caratteri combacianti in grassetto
 
-setupAutocomplete("departure", "autocomplete-departure");
-setupAutocomplete("arrival", "autocomplete-arrival");
+setupAutocomplete("departure", "autocomplete-departure", "departure_iata");
+setupAutocomplete("arrival", "autocomplete-arrival", "arrival_iata");
 closeListIfOut("departure", "autocomplete-departure");
 closeListIfOut("arrival", "autocomplete-arrival");
 
-function setupAutocomplete(inputId, listId) {
+function setupAutocomplete(inputId, listId, iata_codeId) {
 
     document.getElementById(inputId).addEventListener("input", async function() {
 
@@ -33,7 +33,7 @@ function setupAutocomplete(inputId, listId) {
                 let div_child = document.createElement("div");
                 div_child.classList.add("autocomplete-item");
 
-                // si aggiunge al risultato di ricerca
+                // si aggiunge il risultato di ricerca
                 div_child.textContent = airport.name+" ("+airport.iata_code+")";
 
                 // Se city non è null, si aggiunge al risultato di ricerca stylizzato successivamente da CSS
@@ -43,6 +43,7 @@ function setupAutocomplete(inputId, listId) {
                     city.classList.add("city-autocomplete-item");
                     city.textContent = airport.city;
                     div_child.appendChild(city);
+
                 }
                 
                 // Si aggiunge la sottodiv popolata
@@ -54,8 +55,11 @@ function setupAutocomplete(inputId, listId) {
                 div_child.addEventListener("click", () => {
                     document.getElementById(inputId).value = div_child.textContent;
                     list.innerHTML = "";
-                });
 
+                    // Per mandare in GET solo lo Iata code dell'aeroporto, inserisco il valore in un input hidden
+                    document.getElementById(iata_codeId).value = airport.iata_code;
+                    console.log("IATA Code salvato:"+iata_codeId);
+                });
 
             });
         } catch (error) {
@@ -75,5 +79,20 @@ function closeListIfOut (inputId, listId) {
 
 }
 
+// Per inviare in GET solo iata_code, date e viaggiatori
+document.querySelector(".search_flights").addEventListener("submit", (event) => {
+
+    event.preventDefault();
+
+    const fromIATA = document.getElementById("departure_iata").value;
+    const toIATA = document.getElementById("arrival_iata").value;
+    const departureDate = document.getElementById("departure_date").value;
+    const returnDate = document.getElementById("return_date").value;
+    const travelers = document.getElementById("travelers").value;
+
+    const url = `flights-results.php?from=${encodeURIComponent(fromIATA)}&to=${encodeURIComponent(toIATA)}&departure_date=${encodeURIComponent(departureDate)}&return_date=${encodeURIComponent(returnDate)}&travelers=${encodeURIComponent(travelers)}`;
+
+    window.location.href = "../pages/"+url;
+});
 
 

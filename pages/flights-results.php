@@ -12,13 +12,16 @@ require_once '../includes/head.php';
 
         /*
             DA FARE:
-            1) Prendere solo i valori iata_code per la call api
+            1) http://localhost:4500/volaria/pages/flights-results.php?from=JFK&to=MIA&departure_date=2025-03-09&return_date=&travelers=1
+            
+            Non stampa niente anche se su postman funziona
 
         */
 
-        // departure=Malpensa+International+Airport+%28MXP%29Milano&arrival=Coventry+Airport+%28CVT%29Coventry&departure_date=2025-03-07&return_date=&travelers=1
+        // http://localhost:4500/volaria/pages/flights-results.php?from=JFK&to=MIA&departure_date=2025-03-09&return_date=&travelers=1
+
         $api = new AmadeusApi();
-        $temp = $api->searchFlights($GET_["departure"],$GET_["arrival"], $GET_["departure_date"]);
+        $temp = $api->searchFlights($GET_["from"],$GET_["to"], $GET_["departure_date"]);
         print_r($temp);
         echo $temp;
 

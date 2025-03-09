@@ -1,15 +1,17 @@
 <?php
 /*
     1)
-    Ottenere API key e API secret seguendo le istruzioni nella documentazione:
+    Obtain the API key and API secret by following the instructions in the documentation:
     https://developers.amadeus.com/self-service/apis-docs/guides/developer-guides/quick-start/
 
-    Homepage sito:
+    Website homepage:
     https://developers.amadeus.com/
 
-
     2)
-    Rinominare il file da "api_key.example.php" a "api_key.php" 
+    Enter your API key and API secret in the designated fields
+
+    3)
+    Rename the file from "api_key.example.php" to "api_key.php".
 
 */
 

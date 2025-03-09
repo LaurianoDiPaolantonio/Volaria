@@ -110,6 +110,10 @@ input[type="date"] {
 
 /*======================= HEADER ======================= */
 
+header {
+    background-color: var(--space-cadet);
+}
+
 .nav-header {
     display: flex;
     justify-content: space-between;
@@ -126,7 +130,7 @@ input[type="date"] {
 }
 
 .ul-logo a li h3 {
-    color: var(--lapis-lazuli);
+    color: white;
     font-size: 45px;
     padding-top: 10px;
 }
@@ -151,7 +155,7 @@ ul.ul-login {
     height: 40px;
     padding: 10px;
     background: none;
-    color: var(--yale-blue);
+    color: var(--powder-blue);
     text-decoration: none;
     border-radius: 0.5rem;
     border: none;
@@ -165,18 +169,12 @@ ul.ul-login {
     transition: 0.5s;
 }
 
-.button:hover .img-black {
+.button .img-black {
     display: none;
     transition: 0.5s;
 }
 
 .button .img-white {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.button:hover .img-white {
     display: inline;
     opacity: 1;
 }
@@ -205,8 +203,8 @@ ul.ul-login {
 
     padding: 20px 0;
 
-    background-color: var(--yale-blue);
-    color: white;
+    background-color: white;
+    color: black;
     border-radius: 0.5rem;
 
     z-index: 10;
@@ -218,11 +216,15 @@ ul.ul-login {
     width: 100%;
     padding: 20px 60px;
     border-radius: 0.5rem;
-    text-align: left;
+    
+}
+
+.burger a img {
+    
 }
 
 .burger a:hover {
-    background-color: var(--cerulean);
+    background-color: var(--powder-blue);
 }
 
 .open {
@@ -232,6 +234,11 @@ ul.ul-login {
 
 /* ======================= SECTION HOMEPAGE SEARCH FLIGHTS CONTAINER ======================= */
 
+#homepage-search-container {
+    padding: 50px;
+    background-color: var(--space-cadet);
+}
+
 .h1-homepage {
     display: none;
 }
@@ -239,12 +246,7 @@ ul.ul-login {
 .h2-homepage {
     padding: 40px 0;
     font-size: 35px;
-    color: var(--lapis-lazuli);
-}
-
-#homepage-search-container {
-    padding: 50px;
-    background-color: var(--powder-blue);
+    color: white;
 }
 
 form.search_flights{
@@ -295,7 +297,7 @@ form.search_flights{
     left: 0;
     border-radius: 0.5rem;
     background: white;
-    max-height: 300px;
+    max-height: 500px;
     overflow-y: auto;
     width: 350px;
     z-index: 10;
@@ -308,6 +310,7 @@ form.search_flights{
     border-bottom: 1px solid var(--cerulean);
     display: flex;
     flex-direction: column;
+    border-radius: 0.5rem;
 }
 
 .autocomplete-item:hover {
@@ -329,6 +332,7 @@ form.search_flights{
     overflow: visible;
     display: inline;
     white-space: nowrap;
+    color: white;
 }
 
 #travelers {
@@ -347,18 +351,25 @@ form.search_flights{
     min-width: 100px;
     height: 100%;
     background-color: var(--cerulean);
+    color: white;
 }
 
 .search-flights-button button:hover {
     background-color: var(--lapis-lazuli);
-    color: white;
 }
 
 
 /* ======================= FLIGHTS RESULTS PAGE ======================= */
 
 section.flights-results-container {
-    padding: 50px;
+    padding: 50px 50px 20px 50px;
+    background-color: var(--space-cadet);
+}
+
+.flight-search-summary {
+    color: white;
+    text-align: center;
+    border-radius: 0.5rem;
 }
 
 

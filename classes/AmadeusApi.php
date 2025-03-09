@@ -187,7 +187,7 @@ class AmadeusApi {
     public function searchFlights($origin, $destination, $date, $travelers) {
 
         // Controllo validità token
-        $this->loadToken();
+        $this->ensureValidToken();
 
         $url = "https://test.api.amadeus.com/v2/shopping/flight-offers";
         $params = http_build_query([

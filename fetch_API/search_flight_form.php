@@ -32,9 +32,9 @@ $stmt->bind_param("sss", $search, $search, $search);
 $stmt->execute();
 $result = $stmt->get_result();
 
-$cities = [];
+$airports = [];
 while ($row = $result->fetch_assoc()) {
-    $cities[] = $row;
+    $airports[] = $row;
 }
 
-echo json_encode($cities);
+echo json_encode($airports);

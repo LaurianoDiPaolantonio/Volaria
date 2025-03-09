@@ -12,7 +12,7 @@ require_once 'paths.php';
 
     <div class="footer-links-container">
         <div class="footer-logo">
-            <img src="../assets/img/volaria-logo.svg" alt="">
+            <img src="../assets/img/logo.svg" alt="">
         </div>
 
         <div class="footer-links user">

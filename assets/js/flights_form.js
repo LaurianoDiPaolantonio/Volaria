@@ -58,7 +58,6 @@ function setupAutocomplete(inputId, listId, iata_codeId) {
 
                     // Per mandare in GET solo lo Iata code dell'aeroporto, inserisco il valore in un input hidden
                     document.getElementById(iata_codeId).value = airport.iata_code;
-                    console.log("IATA Code salvato:"+iata_codeId);
                 });
 
             });
@@ -79,6 +78,9 @@ function closeListIfOut (inputId, listId) {
 
 }
 
+/*  Per utilizzo del file flights-results.php che porterebbe al caricamento di una nuova pagina
+
+
 // Per inviare in GET solo iata_code, date e viaggiatori
 document.querySelector(".search_flights").addEventListener("submit", (event) => {
 
@@ -95,4 +97,4 @@ document.querySelector(".search_flights").addEventListener("submit", (event) => 
     window.location.href = "../pages/"+url;
 });
 
-
+*/

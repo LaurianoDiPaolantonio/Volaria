@@ -34,7 +34,7 @@ require_once '../includes/head.php';
 
 
             ?>
-            <form action="../pages/flights-results.php" method="GET" class="search_flights">
+            <form action="../pages/flights-results.php" method="GET" class="search_flights" id="searchForm">
 
                 <div class="flight-select">
                     <div class="flight-select-input">
@@ -109,6 +109,8 @@ require_once '../includes/head.php';
 
             </form>
 
+            <div id="flights"></div>
+
         </div>
         
     </section>
@@ -123,6 +125,7 @@ require_once '../includes/head.php';
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="..\assets\js\flights_form.js"></script>
+    
     <script src="..\assets\js\script.js"></script>
 </body>
 </html>

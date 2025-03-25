@@ -6,14 +6,15 @@ ini_set('display_errors', 1);
 require_once __DIR__.'/../../includes/config.php';
 
 /*
-    File php per interrogare il database e tornare in assets/js/flights_form.js i dati ricavati dalla ricerca utente
+    PHP file to query the database and return the retrieved airports 
+    to assets/js/flights_form.js based on the user's search.
 */
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 
 
-// Se il $_GET["query"] esiste ed ha un valore, viene preso. Altrimenti viene assegnata stringa vuota "";
+// If $_GET["query"] exists and has a value, it is used. Otherwise, an empty string "" is assigned.
 $query = $_GET["query"] ?? "";
 
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -27,7 +28,7 @@ $sql = "SELECT DISTINCT id, name, city, iata_code FROM airports WHERE name LIKE 
 $search = "%{$query}%";
 $stmt = $conn->prepare($sql);
 
-// Si assegna il parametro $search ai 3 ? nella query e si esegue la query al db
+// The $search parameter is assigned to the three ? in the query, and the query is executed on the database.
 $stmt->bind_param("sss", $search, $search, $search);
 $stmt->execute();
 $result = $stmt->get_result();

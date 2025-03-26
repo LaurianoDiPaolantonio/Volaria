@@ -374,6 +374,30 @@ section.flights-results-header {
     border-radius: 0.5rem;
 }
 
+.flights-results-container {
+    display: flex;
+}
+
+.flights-results-options {
+    width: 200px;
+    background-color: var(--lapis-lazuli);
+}
+
+.flights-list {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+}
+
+.single-flight-result {
+    display: flex;
+    flex-direction: column;
+}
+
+.single-itinerary {
+    display: flex;
+}
+
 
 
 /* ======================= FOOTER ======================= */

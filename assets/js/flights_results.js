@@ -30,6 +30,10 @@ fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
         singleFlightResult.classList.add("single-flight-result");
         flightsContainer.appendChild(singleFlightResult);
 
+        const itinerariesContainer = document.createElement("div");
+        itinerariesContainer.classList.add("itineraries-container");
+        singleFlightResult.appendChild(itinerariesContainer);
+
 
 
         const flightSegment = flightsList[i];
@@ -42,7 +46,7 @@ fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 
             const singleItinerary = document.createElement("div");
             singleItinerary.classList.add("single-itinerary");
-            singleFlightResult.appendChild(singleItinerary);
+            itinerariesContainer.appendChild(singleItinerary);
 
             createAndAppendDiv(singleItinerary, "airlines-flights-list", intinerary.segments[0].carrierCode);
 
@@ -65,12 +69,6 @@ fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
                     if (i == 0) {
 
                         createDivWithTwoChildren(singleItinerary,"departureContainer-flights-list","departure-flights-list", getTime(intinerary.segments[i].departure.at),"iata-departure-flights-list",intinerary.segments[i].departure.iataCode);
-
-                        /*
-                        createAndAppendDiv(flightsContainer, "departure-flights-list", getTime(intinerary.segments[i].departure.at));
-                        const departureDiv = document.querySelector(".departure-flights-list");
-                        createAndAppendDiv(departureDiv, "iata-departure-flights-list", intinerary.segments[i].departure.iataCode);
-                        */
 
                         console.log(`Partenza: ${getTime(intinerary.segments[i].departure.at)} ${intinerary.segments[i].departure.iataCode}`);
 
@@ -118,8 +116,6 @@ fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
                 console.log(`${intinerary.segments.length-1} stops`);
                 console.log(stopsList);
             }
-
-            // Il ritorno deve essere aggiunto a .single-itinerary dopo il flight-duration
             
         });
 
@@ -152,7 +148,7 @@ function getDuration(durationTime) {
         const minutes = matches[2] || "00";
     
         // Display the result in HH:mm format
-        return `${hours}:${minutes.padStart(2, '0')}`;
+        return `${hours}h ${minutes.padStart(2, '0')}`;
     } else {
         return ("Invalid time format for duration");
     }

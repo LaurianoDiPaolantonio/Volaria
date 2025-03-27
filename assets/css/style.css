@@ -219,10 +219,6 @@ ul.ul-login {
     
 }
 
-.burger a img {
-    
-}
-
 .burger a:hover {
     background-color: var(--powder-blue);
 }
@@ -376,6 +372,7 @@ section.flights-results-header {
 
 .flights-results-container {
     display: flex;
+    background-color: var(--grigio-300);
 }
 
 .flights-results-options {
@@ -384,18 +381,87 @@ section.flights-results-header {
 }
 
 .flights-list {
+    padding: 40px;
     display: flex;
     flex-direction: column;
-    padding: 40px;
+    gap: 30px;
+}
+
+.itineraries-container {
+    border-right: solid 1px var(--grigio-500);
+    padding: 40px 80px 40px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
 }
 
 .single-flight-result {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-radius: 0.5rem;
+    background-color: white;
 }
 
 .single-itinerary {
     display: flex;
+    gap: 50px;
+}
+
+.airlines-flights-list { 
+    order: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--grigio-500);
+}
+
+.departureContainer-flights-list { 
+    order: 2;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+
+.stopsContainer-flights-list { 
+    order: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    color: var(--grigio-500);
+    min-width: 100px;
+}
+
+.arrivalContainer-flights-list { 
+    order: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+
+.departure-flights-list{
+    font-weight: bold;
+    color: var(--grigio-500);
+}
+
+.duration-flights-list {
+    border-bottom: 2px solid var(--grigio-500);
+    min-width: 90px;
+    text-align: center;
+    background-image: url('../img/airplane-icon.svg');
+    background-position: calc(100%) calc(50%);
+    background-repeat: no-repeat;
+    background-size: 15px;
+}
+
+.arrival-flights-list {
+    font-weight: bold;
+    color: var(--grigio-500);
 }
 
 

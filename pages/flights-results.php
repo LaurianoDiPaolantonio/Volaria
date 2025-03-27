@@ -65,6 +65,8 @@ require_once __DIR__.'/../includes/head.php';
 
         <div class="flights-list"></div>
 
+
+
     </section>
 
 

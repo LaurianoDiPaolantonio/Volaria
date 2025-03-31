@@ -119,7 +119,7 @@ fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
             
         });
 
-        createDivWithTwoChildren(singleFlightResult,"priceContainer-flights-list","price-flights-list",flightSegment.price.grandTotal+"€","buttonSelect-flights-list","Select");
+        createDivSelectFlight(singleFlightResult,"priceContainer-flights-list","price-flights-list",flightSegment.price.grandTotal+"€","buttonSelect-flights-list","Select",flightSegment.id);
 
         console.log("Prezzo: "+flightSegment.price.grandTotal+"€");
 
@@ -190,3 +190,46 @@ function createDivWithTwoChildren(parentElement, parentClass, childClass1, child
     // Aggiunta della div principale all'elemento padre nel DOM
     parentElement.appendChild(parentDiv);
 }
+
+// Devo popolare la div select con le info necessarie per far caricare il volo selezionato in un'altra pagina
+function createDivSelectFlight(parentElement, parentClass, childClass1, childContent1, childClass2, childContent2,id_flight,iata_departure,iata_arrival) {
+    // Creazione del div principale
+    const parentDiv = document.createElement("div");
+    parentDiv.classList.add(parentClass);
+
+    // Creazione della prima div figlia
+    const childDiv1 = document.createElement("div");
+    childDiv1.classList.add(childClass1);
+    childDiv1.textContent = childContent1;
+
+    // Creazione della seconda div figlia
+    const childDiv2 = document.createElement("div");
+    childDiv2.classList.add(childClass2);
+    childDiv2.dataset.id_flight = id_flight;
+    childDiv2.textContent = childContent2;
+
+    // Aggiunta delle div figlie alla div principale
+    parentDiv.appendChild(childDiv1);
+    parentDiv.appendChild(childDiv2);
+
+    // Aggiunta della div principale all'elemento padre nel DOM
+    parentElement.appendChild(parentDiv);
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".buttonSelect-flights-list").forEach(button => {
+        button.addEventListener("click", function () {
+            // Prende il div padre che ha i dati del volo
+            let volo = this.parentElement;  
+            let id = volo.dataset.id;
+            let company = volo.dataset.company;
+            let price = volo.dataset.price;
+
+            // Reindirizza alla pagina di dettaglio con i dati in query string
+            window.location.href = `dettaglio.html?id=${id}&company=${company}&price=${price}`;
+        });
+    });
+});
+
+

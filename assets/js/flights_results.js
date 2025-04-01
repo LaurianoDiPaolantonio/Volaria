@@ -1,29 +1,28 @@
 
-// FAR STAMPARE I RISULTATI VOLI IN CONSOLE ✅
-// SUCCESSIVAMENTE CREARE UNA DIV POPOLATA PER OGNI RISULTATO 
-// http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/example_api_response.json
+// fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/example4_api_response.json`)
 
 //fetch(`${window.location.origin}/volaria/public/endpoints/get_flights_results.php?from=JFK&to=MIA&departure_date=2025-03-14&return_date=&travelers=1`)
-fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/example4_api_response.json`)
+/*
+const urlParams = new URLSearchParams(window.location.search);
+const apiUrl = `${window.location.origin}/volaria/public/endpoints/get_flights_results.php?` + urlParams.toString();
+fetch(apiUrl)
+*/
+
+const urlParams = new URLSearchParams(window.location.search);
+const apiUrl = `${window.location.origin}/volaria/public/endpoints/get_flights_results.php?` + urlParams.toString();
+fetch(apiUrl)
 .then(response => response.json())
 .then(data => {
     console.log(data);
 
-    /*
-        INFO I NEED:
-        1) Partenza in HH:mm
-        2) Arrivo in HH:mm
-        3) Durata in HH:mm
-        4) Stops (n + durata HH:mm + iata)
-        5) Entrambi Aeroporti Iata 
-        6) Airlines
-        7) prezzo
-    */
     const flightsContainer = document.querySelector('.flights-list');
 
     const flightsList = data.data;
 
     // Da fare for dinamico che parte da un numero e finisce ad un altro numero, mostrando un numero definito di risultati
+    // Posso usare GET da php così anche selezionando un volo e tornando indietro si rimane sulla stessa pagina, se posso farlo senza ricaricare la pagina
+    // Se voglio visualizzare es: 10 voli per pagina, faccio apparire un numero di pagine selezionabili uguali a:
+    // numRisultati / 10
     for (let i=0; i < 5; i++) {
 
         const singleFlightResult = document.createElement("div");
@@ -39,7 +38,7 @@ fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
         const flightSegment = flightsList[i];
         console.log("--------------------------------");
 
-        // Si passa per ogni itinerario (andata e ,se c'è, ritorno) 
+        // Iterate through each itinerary (departure and, if present, return).
         flightSegment.itineraries.forEach(intinerary => {
 
             let stopsList;
@@ -50,7 +49,7 @@ fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 
             createAndAppendDiv(singleItinerary, "airlines-flights-list", intinerary.segments[0].carrierCode);
 
-            // Si stampano partenza e arrivo di ogni itinerario
+            // Scan the departure and arrival of each itinerary
             for (let i=0; i < intinerary.segments.length; i++) {
 
                 /*
@@ -60,11 +59,9 @@ fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
                     fare query con php e ritornare il nome della compagnia aerea
                 */
 
-                //createAndAppendDiv(flightsContainer, "airlines-flights-list", intinerary.segments[i].carrierCode);
-
                 console.log(`Airline: `+intinerary.segments[i].carrierCode);
 
-                //  se ci sono stops si prende prima partenza e ultimo arrivo
+                //  If there are stops, takes the first departure and the last arrival
                 if (intinerary.segments.length > 1) {
                     if (i == 0) {
 
@@ -73,7 +70,7 @@ fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
                         console.log(`Partenza: ${getTime(intinerary.segments[i].departure.at)} ${intinerary.segments[i].departure.iataCode}`);
 
                     } else {
-                        // Si popola un array con gli aeroporti dove si fa stop
+                        // Populates an array with the airports where stops are made
                         stopsList += intinerary.segments[i].departure.iataCode + " ";
                     } 
                     if (i == intinerary.segments.length-1) {
@@ -83,7 +80,7 @@ fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
                         console.log(`Arrivo: ${getTime(intinerary.segments[i].arrival.at)}`+` ${intinerary.segments[i].arrival.iataCode}`);
                     }
                 } else {
-                    // se è diretto di prende partenza e arrivo direttamente dallo stesso indice
+                    // If the flight is direct, it takes the departure and arrival directly from the same index.
 
                     createDivWithTwoChildren(singleItinerary,"departureContainer-flights-list","departure-flights-list", getTime(intinerary.segments[i].departure.at),"iata-departure-flights-list",intinerary.segments[i].departure.iataCode);
 
@@ -95,7 +92,7 @@ fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
                 }
             }
 
-            // Si prende durata del volo, in caso di scali si prende numero di scali con aeroporto/i iata
+            // Retrieves the flight duration. If there are layovers, get the number of stops along with the IATA airport codes.
             if (intinerary.segments.length == 1) {
 
                 createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list","Direct");
@@ -112,7 +109,7 @@ fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 
                 createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",intinerary.segments.length-1+" stops "+stopsList);
 
-                // Si stampa il numero di stops e tutti gli aeroporti dove vengono fatti
+                // Prints the number of stops and all the airports where they occur
                 console.log(`${intinerary.segments.length-1} stops`);
                 console.log(stopsList);
             }
@@ -127,6 +124,7 @@ fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
     }
 });
 
+// To get the time from "YYYY-MM-DDTHH:mm:ss" to "HH:mm"    e.g."2025-04-28T13:00:00" to "13:00"
 function getTime(dateTime) {
 
     const date = new Date(dateTime);
@@ -138,6 +136,7 @@ function getTime(dateTime) {
 
 }
 
+// To get the duration from e.g."PT22H40M" to "22h 40"
 function getDuration(durationTime) {
 
     const regex = /PT(\d+)H(?:([\d]+)M)?/;
@@ -147,7 +146,6 @@ function getDuration(durationTime) {
         const hours = matches[1];
         const minutes = matches[2] || "00";
     
-        // Display the result in HH:mm format
         return `${hours}h ${minutes.padStart(2, '0')}`;
     } else {
         return ("Invalid time format for duration");
@@ -155,6 +153,7 @@ function getDuration(durationTime) {
 
 }
 
+// To create a single div with a class and populate it with content. Appends it to the selected parent element
 function createAndAppendDiv(parentElement, className, content, ) {
 
     const newDiv = document.createElement("div");
@@ -168,65 +167,75 @@ function createAndAppendDiv(parentElement, className, content, ) {
     }
 }
 
+// Same as the single div function but with two child divs inside a parent div
 function createDivWithTwoChildren(parentElement, parentClass, childClass1, childContent1, childClass2, childContent2) {
-    // Creazione del div principale
+
+    // Creation of the main div
     const parentDiv = document.createElement("div");
     parentDiv.classList.add(parentClass);
 
-    // Creazione della prima div figlia
+    // Creation of the first child div
     const childDiv1 = document.createElement("div");
     childDiv1.classList.add(childClass1);
     childDiv1.textContent = childContent1;
 
-    // Creazione della seconda div figlia
+    // Creation of the second child div
     const childDiv2 = document.createElement("div");
     childDiv2.classList.add(childClass2);
     childDiv2.textContent = childContent2;
 
-    // Aggiunta delle div figlie alla div principale
+    // Adding the child divs to the main div
     parentDiv.appendChild(childDiv1);
     parentDiv.appendChild(childDiv2);
 
-    // Aggiunta della div principale all'elemento padre nel DOM
+    // Adding the main div to the parent element in the DOM
     parentElement.appendChild(parentDiv);
+
 }
 
-// Devo popolare la div select con le info necessarie per far caricare il volo selezionato in un'altra pagina
-function createDivSelectFlight(parentElement, parentClass, childClass1, childContent1, childClass2, childContent2,id_flight,iata_departure,iata_arrival) {
-    // Creazione del div principale
+// DA MODIFICARE. DEVO PRENDERE I PARAMETRI DALL'URL E TRASFERIRLI ALLA PAGINA DI DETTAGLIO DEL VOLO SELEZIONATO (urlParams)
+function createDivSelectFlight(parentElement, parentClass, childClass1, childContent1, childClass2, childContent2,id_flight,iata_departure,iata_arrival,depart_date,return_date,travelers) {
+    
     const parentDiv = document.createElement("div");
     parentDiv.classList.add(parentClass);
 
-    // Creazione della prima div figlia
+    
     const childDiv1 = document.createElement("div");
     childDiv1.classList.add(childClass1);
     childDiv1.textContent = childContent1;
 
-    // Creazione della seconda div figlia
+    
     const childDiv2 = document.createElement("div");
     childDiv2.classList.add(childClass2);
     childDiv2.dataset.id_flight = id_flight;
+    childDiv2.dataset.iata_departure = iata_departure;
+    childDiv2.dataset.iata_arrival = iata_arrival;
+    childDiv2.dataset.depart_date = depart_date;
+    childDiv2.dataset.travelers = travelers;
+    if (return_date) {
+        childDiv2.dataset.return_date = return_date;
+    }
     childDiv2.textContent = childContent2;
 
-    // Aggiunta delle div figlie alla div principale
+    
     parentDiv.appendChild(childDiv1);
     parentDiv.appendChild(childDiv2);
 
-    // Aggiunta della div principale all'elemento padre nel DOM
     parentElement.appendChild(parentDiv);
+
 }
 
 
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".buttonSelect-flights-list").forEach(button => {
         button.addEventListener("click", function () {
-            // Prende il div padre che ha i dati del volo
+            // Gets the parent div that contains the flight data
             let volo = this.parentElement;  
             let id = volo.dataset.id;
             let company = volo.dataset.company;
             let price = volo.dataset.price;
 
-            // Reindirizza alla pagina di dettaglio con i dati in query string
+            // Redirects to the detail page with the data in the query string
             window.location.href = `dettaglio.html?id=${id}&company=${company}&price=${price}`;
         });
     });

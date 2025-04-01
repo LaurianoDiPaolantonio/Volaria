@@ -95,8 +95,6 @@ require_once __DIR__.'/../includes/head.php';
 
             </form>
 
-            <div id="flights"></div>
-
         </div>
         
     </section>

@@ -38,6 +38,6 @@ require_once 'paths.php';
     </div>
     
     <div class="footer-copyrights">
-        <p>© 2025 Volaria. All rights reserved.</p>
+        <p>© <?php echo date("Y"); ?> Volaria. All rights reserved.</p>
     </div>
 </footer>

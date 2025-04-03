@@ -8,6 +8,9 @@ const apiUrl = `${window.location.origin}/volaria/public/endpoints/get_flights_r
 fetch(apiUrl)
 */
 
+const loader = document.querySelector(".loader");
+loader.style.display = "block";
+
 const urlParams = new URLSearchParams(window.location.search);
 const apiUrl = `${window.location.origin}/volaria/public/endpoints/get_flights_results.php?` + urlParams.toString();
 fetch(apiUrl)
@@ -38,7 +41,7 @@ fetch(apiUrl)
         const flightSegment = flightsList[i];
         console.log("--------------------------------");
 
-        // Iterate through each itinerary (departure and, if present, return).
+        // Iterates through each itinerary (departure and, if present, return).
         flightSegment.itineraries.forEach(intinerary => {
 
             let stopsList;
@@ -122,6 +125,7 @@ fetch(apiUrl)
 
 
     }
+    loader.style.display = "none";
 });
 
 // To get the time from "YYYY-MM-DDTHH:mm:ss" to "HH:mm"    e.g."2025-04-28T13:00:00" to "13:00"
@@ -193,52 +197,40 @@ function createDivWithTwoChildren(parentElement, parentClass, childClass1, child
 
 }
 
-// DA MODIFICARE. DEVO PRENDERE I PARAMETRI DALL'URL E TRASFERIRLI ALLA PAGINA DI DETTAGLIO DEL VOLO SELEZIONATO (urlParams)
-function createDivSelectFlight(parentElement, parentClass, childClass1, childContent1, childClass2, childContent2,id_flight,iata_departure,iata_arrival,depart_date,return_date,travelers) {
+// Sets each select div to redirect on click to the selected flight, retrieving the search parameters and the flight ID of that search
+function createDivSelectFlight(parentElement, parentClass, childClass1, childContent1, childClass2, childContent2,id_flight) {
     
     const parentDiv = document.createElement("div");
     parentDiv.classList.add(parentClass);
 
-    
     const childDiv1 = document.createElement("div");
     childDiv1.classList.add(childClass1);
     childDiv1.textContent = childContent1;
 
-    
     const childDiv2 = document.createElement("div");
     childDiv2.classList.add(childClass2);
-    childDiv2.dataset.id_flight = id_flight;
-    childDiv2.dataset.iata_departure = iata_departure;
-    childDiv2.dataset.iata_arrival = iata_arrival;
-    childDiv2.dataset.depart_date = depart_date;
-    childDiv2.dataset.travelers = travelers;
-    if (return_date) {
-        childDiv2.dataset.return_date = return_date;
-    }
+    childDiv2.setAttribute("id_flight", id_flight);
     childDiv2.textContent = childContent2;
 
+    document.addEventListener("click", function (event) {
+
+        if (event.target.closest(".buttonSelect-flights-list")) {
+            let selectDiv = event.target.closest(".buttonSelect-flights-list");
+            let flightId = selectDiv.getAttribute("id_flight");
     
+            if (flightId) {
+                let urlParams = new URLSearchParams(window.location.search);
+                window.location.href = `flight-details.php?flight_id=${flightId}&${urlParams.toString()}`;
+            }
+
+        }
+    });
+
     parentDiv.appendChild(childDiv1);
     parentDiv.appendChild(childDiv2);
 
     parentElement.appendChild(parentDiv);
 
 }
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".buttonSelect-flights-list").forEach(button => {
-        button.addEventListener("click", function () {
-            // Gets the parent div that contains the flight data
-            let volo = this.parentElement;  
-            let id = volo.dataset.id;
-            let company = volo.dataset.company;
-            let price = volo.dataset.price;
-
-            // Redirects to the detail page with the data in the query string
-            window.location.href = `dettaglio.html?id=${id}&company=${company}&price=${price}`;
-        });
-    });
-});
 
 

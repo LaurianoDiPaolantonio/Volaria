@@ -186,7 +186,7 @@ class AmadeusApi {
         }
     }
 
-    // Ricerca voli
+    // searches flights based on user's inputs
     public function searchFlights($origin, $destination, $date, $travelers) {
 
         // Controllo validità token

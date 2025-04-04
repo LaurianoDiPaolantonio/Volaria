@@ -65,6 +65,14 @@ require_once __DIR__.'/../includes/head.php';
 
         <div class="flights-list"></div>
 
+        <div class="flights-list-sort-by">
+            <span>Sort by </span>
+            <select id="sort-flights-list">
+                <option value="cheapest">Cheapest</option>
+                <option value="fastest">Fastest</option>
+            </select>
+        </div>
+
 
 
     </section>

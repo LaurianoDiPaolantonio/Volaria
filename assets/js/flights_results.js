@@ -1,6 +1,9 @@
 
 // fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/example4_api_response.json`)
 
+// 2 stops flights for testing:
+// fetch(`http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/example5_api_response.json`)
+
 //fetch(`${window.location.origin}/volaria/public/endpoints/get_flights_results.php?from=JFK&to=MIA&departure_date=2025-03-14&return_date=&travelers=1`)
 /*
 const urlParams = new URLSearchParams(window.location.search);
@@ -18,115 +21,138 @@ fetch(apiUrl)
 .then(data => {
     console.log(data);
 
+    // To sort the results based on the user's selected preferences
+    const sortSelect = document.getElementById("sort-flights-list");
+
     const flightsContainer = document.querySelector('.flights-list');
 
     const flightsList = data.data;
 
-    // Da fare for dinamico che parte da un numero e finisce ad un altro numero, mostrando un numero definito di risultati
-    // Posso usare GET da php così anche selezionando un volo e tornando indietro si rimane sulla stessa pagina, se posso farlo senza ricaricare la pagina
-    // Se voglio visualizzare es: 10 voli per pagina, faccio apparire un numero di pagine selezionabili uguali a:
-    // numRisultati / 10
-    for (let i=0; i < 5; i++) {
+    sortSelect.addEventListener("change", updateFlightsList);
 
-        const singleFlightResult = document.createElement("div");
-        singleFlightResult.classList.add("single-flight-result");
-        flightsContainer.appendChild(singleFlightResult);
+    updateFlightsList();
 
-        const itinerariesContainer = document.createElement("div");
-        itinerariesContainer.classList.add("itineraries-container");
-        singleFlightResult.appendChild(itinerariesContainer);
+    // Inside this function there's everything to populate the divs with flights results
+    function updateFlightsList() {
+
+        const sortBy = sortSelect.value;
+        
+        const sortedFlights = [...flightsList].sort((a, b) => {
+            return sortBy === "cheapest" ? a.price.grandTotal - b.price.grandTotal : getSortDuration(a.itineraries[0].duration) - getSortDuration(b.itineraries[0].duration);
+        })
+
+        // This is to reset flightsContainer in case there's a change in the sort preferences
+        flightsContainer.innerHTML = "";
+
+        // Da fare for dinamico che parte da un numero e finisce ad un altro numero, mostrando un numero definito di risultati
+        // Posso usare GET da php così anche selezionando un volo e tornando indietro si rimane sulla stessa pagina, se posso farlo senza ricaricare la pagina
+        // Se voglio visualizzare es: 10 voli per pagina, faccio apparire un numero di pagine selezionabili uguali a:
+        // numRisultati / 10
+        for (let i=0; i < sortedFlights.length; i++) {
+
+            const singleFlightResult = document.createElement("div");
+            singleFlightResult.classList.add("single-flight-result");
+            flightsContainer.appendChild(singleFlightResult);
+
+            const itinerariesContainer = document.createElement("div");
+            itinerariesContainer.classList.add("itineraries-container");
+            singleFlightResult.appendChild(itinerariesContainer);
 
 
+            // Once we have the flights sorted as we need them to be, we process and print the results
+            const flightSegment = sortedFlights[i];
+            console.log("--------------------------------");
 
-        const flightSegment = flightsList[i];
-        console.log("--------------------------------");
+            // Iterates through each itinerary (departure and, if present, return).
+            flightSegment.itineraries.forEach(intinerary => {
 
-        // Iterates through each itinerary (departure and, if present, return).
-        flightSegment.itineraries.forEach(intinerary => {
+                let stopsList;
 
-            let stopsList;
+                const singleItinerary = document.createElement("div");
+                singleItinerary.classList.add("single-itinerary");
+                itinerariesContainer.appendChild(singleItinerary);
 
-            const singleItinerary = document.createElement("div");
-            singleItinerary.classList.add("single-itinerary");
-            itinerariesContainer.appendChild(singleItinerary);
+                createAndAppendDiv(singleItinerary, "airlines-flights-list", intinerary.segments[0].carrierCode);
 
-            createAndAppendDiv(singleItinerary, "airlines-flights-list", intinerary.segments[0].carrierCode);
+                // Scan the departure and arrival of each itinerary
+                for (let i=0; i < intinerary.segments.length; i++) {
 
-            // Scan the departure and arrival of each itinerary
-            for (let i=0; i < intinerary.segments.length; i++) {
+                    /*
+                        Qui devo stampare la compagnia aerea prendendo il suo
+                        iata code dal json in data[0].itineraries[0].segments[0].carrierCode
 
-                /*
-                    Qui devo stampare la compagnia aerea prendendo il suo
-                    iata code dal json in data[0].itineraries[0].segments[0].carrierCode
+                        fare query con php e ritornare il nome della compagnia aerea
+                    */
 
-                    fare query con php e ritornare il nome della compagnia aerea
-                */
+                    console.log(`Airline: `+intinerary.segments[i].carrierCode);
 
-                console.log(`Airline: `+intinerary.segments[i].carrierCode);
+                    //  If there are stops, takes the first departure and the last arrival
+                    if (intinerary.segments.length > 1) {
+                        if (i == 0) {
 
-                //  If there are stops, takes the first departure and the last arrival
-                if (intinerary.segments.length > 1) {
-                    if (i == 0) {
+                            createDivWithTwoChildren(singleItinerary,"departureContainer-flights-list","departure-flights-list", getTime(intinerary.segments[i].departure.at),"iata-departure-flights-list",intinerary.segments[i].departure.iataCode);
+
+                            console.log(`Partenza: ${getTime(intinerary.segments[i].departure.at)} ${intinerary.segments[i].departure.iataCode}`);
+
+                        } else {
+                            // Populates an array with the airports where stops are made
+                            stopsList += intinerary.segments[i].departure.iataCode + " ";
+                        } 
+                        if (i == intinerary.segments.length-1) {
+
+                            createDivWithTwoChildren(singleItinerary,"arrivalContainer-flights-list","arrival-flights-list", getTime(intinerary.segments[i].arrival.at),"iata-arrival-flights-list",intinerary.segments[i].arrival.iataCode);
+
+                            console.log(`Arrivo: ${getTime(intinerary.segments[i].arrival.at)}`+` ${intinerary.segments[i].arrival.iataCode}`);
+                        }
+                    } else {
+                        // If the flight is direct, it takes the departure and arrival directly from the same index.
 
                         createDivWithTwoChildren(singleItinerary,"departureContainer-flights-list","departure-flights-list", getTime(intinerary.segments[i].departure.at),"iata-departure-flights-list",intinerary.segments[i].departure.iataCode);
 
                         console.log(`Partenza: ${getTime(intinerary.segments[i].departure.at)} ${intinerary.segments[i].departure.iataCode}`);
 
-                    } else {
-                        // Populates an array with the airports where stops are made
-                        stopsList += intinerary.segments[i].departure.iataCode + " ";
-                    } 
-                    if (i == intinerary.segments.length-1) {
-
                         createDivWithTwoChildren(singleItinerary,"arrivalContainer-flights-list","arrival-flights-list", getTime(intinerary.segments[i].arrival.at),"iata-arrival-flights-list",intinerary.segments[i].arrival.iataCode);
 
                         console.log(`Arrivo: ${getTime(intinerary.segments[i].arrival.at)}`+` ${intinerary.segments[i].arrival.iataCode}`);
                     }
-                } else {
-                    // If the flight is direct, it takes the departure and arrival directly from the same index.
-
-                    createDivWithTwoChildren(singleItinerary,"departureContainer-flights-list","departure-flights-list", getTime(intinerary.segments[i].departure.at),"iata-departure-flights-list",intinerary.segments[i].departure.iataCode);
-
-                    console.log(`Partenza: ${getTime(intinerary.segments[i].departure.at)} ${intinerary.segments[i].departure.iataCode}`);
-
-                    createDivWithTwoChildren(singleItinerary,"arrivalContainer-flights-list","arrival-flights-list", getTime(intinerary.segments[i].arrival.at),"iata-arrival-flights-list",intinerary.segments[i].arrival.iataCode);
-
-                    console.log(`Arrivo: ${getTime(intinerary.segments[i].arrival.at)}`+` ${intinerary.segments[i].arrival.iataCode}`);
                 }
-            }
 
-            // Retrieves the flight duration. If there are layovers, get the number of stops along with the IATA airport codes.
-            if (intinerary.segments.length == 1) {
+                // Retrieves the flight duration. If there are layovers, get the number of stops along with the IATA airport codes.
+                if (intinerary.segments.length == 1) {
 
-                createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list","Direct");
+                    createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list","Direct");
 
-                console.log(`Diretto ${getDuration(intinerary.duration)}`);
+                    console.log(`Diretto ${getDuration(intinerary.duration)}`);
 
-            } else if (intinerary.segments.length == 2) {
+                } else if (intinerary.segments.length == 2) {
 
-                createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list","1 stop "+intinerary.segments[0].arrival.iataCode);
+                    createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list","1 stop "+intinerary.segments[0].arrival.iataCode);
 
-                console.log(`1 stop ${intinerary.segments[0].arrival.iataCode} ${getDuration(intinerary.duration)}`);
+                    console.log(`1 stop ${intinerary.segments[0].arrival.iataCode} ${getDuration(intinerary.duration)}`);
 
-            } else if (intinerary.segments.length > 2) {
+                } else if (intinerary.segments.length > 2) {
 
-                createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",intinerary.segments.length-1+" stops "+stopsList);
+                    createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",intinerary.segments.length-1+" stops "+stopsList);
 
-                // Prints the number of stops and all the airports where they occur
-                console.log(`${intinerary.segments.length-1} stops`);
-                console.log(stopsList);
-            }
-            
-        });
+                    // Prints the number of stops and all the airports where they occur
+                    console.log(`${intinerary.segments.length-1} stops`);
+                    console.log(stopsList);
+                }
+                
+            });
 
-        createDivSelectFlight(singleFlightResult,"priceContainer-flights-list","price-flights-list",flightSegment.price.grandTotal+"€","buttonSelect-flights-list","Select",flightSegment.id);
+            createDivSelectFlight(singleFlightResult,"priceContainer-flights-list","price-flights-list",flightSegment.price.grandTotal+"€","buttonSelect-flights-list","Select",flightSegment.id);
 
-        console.log("Prezzo: "+flightSegment.price.grandTotal+"€");
+            console.log("Prezzo: "+flightSegment.price.grandTotal+"€");
 
 
+        }
+        loader.style.display = "none";
     }
-    loader.style.display = "none";
+
 });
+
+
 
 // To get the time from "YYYY-MM-DDTHH:mm:ss" to "HH:mm"    e.g."2025-04-28T13:00:00" to "13:00"
 function getTime(dateTime) {
@@ -140,7 +166,7 @@ function getTime(dateTime) {
 
 }
 
-// To get the duration from e.g."PT22H40M" to "22h 40"
+// To get the duration from e.g."PT22H40M" to "22h 40". Used for display
 function getDuration(durationTime) {
 
     const regex = /PT(\d+)H(?:([\d]+)M)?/;
@@ -155,6 +181,14 @@ function getDuration(durationTime) {
         return ("Invalid time format for duration");
     }
 
+}
+
+// Returns the duration (e.g."PT22H40M") in minutes. Used for sorting
+function getSortDuration(durationTime) {
+    const match = durationTime.match(/PT(\d+H)?(\d+M)?/); 
+    const hours = match[1] ? parseInt(match[1].replace("H", "")) : 0;
+    const minutes = match[2] ? parseInt(match[2].replace("M", "")) : 0;
+    return hours * 60 + minutes;
 }
 
 // To create a single div with a class and populate it with content. Appends it to the selected parent element

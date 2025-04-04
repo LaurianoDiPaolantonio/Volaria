@@ -385,6 +385,17 @@ section.flights-results-header {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    min-height: 100vh;
+}
+
+.flights-list-sort-by {
+    font-weight: 500;
+    padding: 10px 0;
+}
+
+#sort-flights-list {
+    border-radius: 0.5rem;
+    padding: 10px;
 }
 
 .itineraries-container {

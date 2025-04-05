@@ -16,7 +16,7 @@ loader.style.display = "block";
 
 const urlParams = new URLSearchParams(window.location.search);
 const apiUrl = `${window.location.origin}/volaria/public/endpoints/get_flights_results.php?` + urlParams.toString();
-fetch(apiUrl)
+fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/example_api_response.json")
 .then(response => response.json())
 .then(data => {
     console.log(data);
@@ -41,7 +41,7 @@ fetch(apiUrl)
             return sortBy === "cheapest" ? a.price.grandTotal - b.price.grandTotal : getSortDuration(a.itineraries[0].duration) - getSortDuration(b.itineraries[0].duration);
         })
 
-        // This is to reset flightsContainer in case there's a change in the sort preferences
+        // This is to reset flightsContainer when there's a change in the sort preferences
         flightsContainer.innerHTML = "";
 
         // Da fare for dinamico che parte da un numero e finisce ad un altro numero, mostrando un numero definito di risultati
@@ -66,7 +66,7 @@ fetch(apiUrl)
             // Iterates through each itinerary (departure and, if present, return).
             flightSegment.itineraries.forEach(intinerary => {
 
-                let stopsList;
+                let stopsList = ``;
 
                 const singleItinerary = document.createElement("div");
                 singleItinerary.classList.add("single-itinerary");
@@ -96,7 +96,7 @@ fetch(apiUrl)
 
                         } else {
                             // Populates an array with the airports where stops are made
-                            stopsList += intinerary.segments[i].departure.iataCode + " ";
+                            stopsList += intinerary.segments[i].departure.iataCode + ` `;
                         } 
                         if (i == intinerary.segments.length-1) {
 
@@ -120,19 +120,40 @@ fetch(apiUrl)
                 // Retrieves the flight duration. If there are layovers, get the number of stops along with the IATA airport codes.
                 if (intinerary.segments.length == 1) {
 
-                    createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list","Direct");
+                    const stopsText = document.createElement("span");
+                    stopsText.textContent = `Direct`;
+                    stopsText.style.color = "green";
+
+                    createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",stopsText);
 
                     console.log(`Diretto ${getDuration(intinerary.duration)}`);
 
                 } else if (intinerary.segments.length == 2) {
 
-                    createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list","1 stop "+intinerary.segments[0].arrival.iataCode);
+                    const stopsText = document.createElement("span");
+                    stopsText.textContent = `1 stop`;
+                    stopsText.style.color = "red";
+
+                    const fullStopsContainer = document.createElement("span");
+                    fullStopsContainer.appendChild(stopsText);
+                    fullStopsContainer.append(` ` + intinerary.segments[0].arrival.iataCode);
+
+                    createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",fullStopsContainer);
 
                     console.log(`1 stop ${intinerary.segments[0].arrival.iataCode} ${getDuration(intinerary.duration)}`);
 
                 } else if (intinerary.segments.length > 2) {
 
-                    createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",intinerary.segments.length-1+" stops "+stopsList);
+                    const stopsText = document.createElement("span");
+                    stopsText.textContent = `${intinerary.segments.length-1} stops`;
+                    stopsText.style.color = "red";
+
+                    const fullStopsContainer = document.createElement("span");
+                    fullStopsContainer.appendChild(stopsText);
+                    fullStopsContainer.append(` ` + stopsList)
+
+
+                    createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",fullStopsContainer);
 
                     // Prints the number of stops and all the airports where they occur
                     console.log(`${intinerary.segments.length-1} stops`);
@@ -220,7 +241,7 @@ function createDivWithTwoChildren(parentElement, parentClass, childClass1, child
     // Creation of the second child div
     const childDiv2 = document.createElement("div");
     childDiv2.classList.add(childClass2);
-    childDiv2.textContent = childContent2;
+    appendContent(childDiv2, childContent2);
 
     // Adding the child divs to the main div
     parentDiv.appendChild(childDiv1);
@@ -229,6 +250,15 @@ function createDivWithTwoChildren(parentElement, parentClass, childClass1, child
     // Adding the main div to the parent element in the DOM
     parentElement.appendChild(parentDiv);
 
+}
+
+// Helper to accept strings or DOM nodes
+function appendContent(element, content) {
+    if (typeof content === "string") {
+        element.textContent = content;
+    } else if (content instanceof Node) {
+        element.appendChild(content);
+    }
 }
 
 // Sets each select div to redirect on click to the selected flight, retrieving the search parameters and the flight ID of that search
@@ -266,5 +296,7 @@ function createDivSelectFlight(parentElement, parentClass, childClass1, childCon
     parentElement.appendChild(parentDiv);
 
 }
+
+
 
 

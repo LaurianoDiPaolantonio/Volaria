@@ -16,7 +16,7 @@ loader.style.display = "block";
 
 const urlParams = new URLSearchParams(window.location.search);
 const apiUrl = `${window.location.origin}/volaria/public/endpoints/get_flights_results.php?` + urlParams.toString();
-fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/example_api_response.json")
+fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/example4_api_response.json")
 .then(response => response.json())
 .then(data => {
     console.log(data);
@@ -61,7 +61,7 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 
             // Once we have the flights sorted as we need them to be, we process and print the results
             const flightSegment = sortedFlights[i];
-            console.log("--------------------------------");
+            //console.log("--------------------------------");
 
             // Iterates through each itinerary (departure and, if present, return).
             flightSegment.itineraries.forEach(intinerary => {
@@ -84,7 +84,7 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
                         fare query con php e ritornare il nome della compagnia aerea
                     */
 
-                    console.log(`Airline: `+intinerary.segments[i].carrierCode);
+                    //console.log(`Airline: `+intinerary.segments[i].carrierCode);
 
                     //  If there are stops, takes the first departure and the last arrival
                     if (intinerary.segments.length > 1) {
@@ -92,7 +92,7 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 
                             createDivWithTwoChildren(singleItinerary,"departureContainer-flights-list","departure-flights-list", getTime(intinerary.segments[i].departure.at),"iata-departure-flights-list",intinerary.segments[i].departure.iataCode);
 
-                            console.log(`Partenza: ${getTime(intinerary.segments[i].departure.at)} ${intinerary.segments[i].departure.iataCode}`);
+                            //console.log(`Partenza: ${getTime(intinerary.segments[i].departure.at)} ${intinerary.segments[i].departure.iataCode}`);
 
                         } else {
                             // Populates an array with the airports where stops are made
@@ -102,18 +102,18 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 
                             createDivWithTwoChildren(singleItinerary,"arrivalContainer-flights-list","arrival-flights-list", getTime(intinerary.segments[i].arrival.at),"iata-arrival-flights-list",intinerary.segments[i].arrival.iataCode);
 
-                            console.log(`Arrivo: ${getTime(intinerary.segments[i].arrival.at)}`+` ${intinerary.segments[i].arrival.iataCode}`);
+                            //console.log(`Arrivo: ${getTime(intinerary.segments[i].arrival.at)}`+` ${intinerary.segments[i].arrival.iataCode}`);
                         }
                     } else {
                         // If the flight is direct, it takes the departure and arrival directly from the same index.
 
                         createDivWithTwoChildren(singleItinerary,"departureContainer-flights-list","departure-flights-list", getTime(intinerary.segments[i].departure.at),"iata-departure-flights-list",intinerary.segments[i].departure.iataCode);
 
-                        console.log(`Partenza: ${getTime(intinerary.segments[i].departure.at)} ${intinerary.segments[i].departure.iataCode}`);
+                        //console.log(`Partenza: ${getTime(intinerary.segments[i].departure.at)} ${intinerary.segments[i].departure.iataCode}`);
 
                         createDivWithTwoChildren(singleItinerary,"arrivalContainer-flights-list","arrival-flights-list", getTime(intinerary.segments[i].arrival.at),"iata-arrival-flights-list",intinerary.segments[i].arrival.iataCode);
 
-                        console.log(`Arrivo: ${getTime(intinerary.segments[i].arrival.at)}`+` ${intinerary.segments[i].arrival.iataCode}`);
+                        //console.log(`Arrivo: ${getTime(intinerary.segments[i].arrival.at)}`+` ${intinerary.segments[i].arrival.iataCode}`);
                     }
                 }
 
@@ -126,7 +126,7 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 
                     createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",stopsText);
 
-                    console.log(`Diretto ${getDuration(intinerary.duration)}`);
+                    //console.log(`Diretto ${getDuration(intinerary.duration)}`);
 
                 } else if (intinerary.segments.length == 2) {
 
@@ -140,7 +140,7 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 
                     createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",fullStopsContainer);
 
-                    console.log(`1 stop ${intinerary.segments[0].arrival.iataCode} ${getDuration(intinerary.duration)}`);
+                    //console.log(`1 stop ${intinerary.segments[0].arrival.iataCode} ${getDuration(intinerary.duration)}`);
 
                 } else if (intinerary.segments.length > 2) {
 
@@ -156,15 +156,15 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
                     createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",fullStopsContainer);
 
                     // Prints the number of stops and all the airports where they occur
-                    console.log(`${intinerary.segments.length-1} stops`);
-                    console.log(stopsList);
+                    //console.log(`${intinerary.segments.length-1} stops`);
+                    //console.log(stopsList);
                 }
                 
             });
 
             createDivSelectFlight(singleFlightResult,"priceContainer-flights-list","price-flights-list",flightSegment.price.grandTotal+"€","buttonSelect-flights-list","Select",flightSegment.id);
 
-            console.log("Prezzo: "+flightSegment.price.grandTotal+"€");
+            //console.log("Prezzo: "+flightSegment.price.grandTotal+"€");
 
 
         }

@@ -61,7 +61,12 @@ require_once __DIR__.'/../includes/head.php';
 
     <section class="flights-results-container">
 
-        <div class="flights-results-options"></div>
+        <div class="flights-results-options">
+            <p>To do:</p>
+            <p>- avvicinare divs results tra loro</p>
+            <p>- rendere cliccabile tutta la div result</p>
+            <p>- dare ombra alla div con hover</p>
+        </div>
 
         <div class="flights-list"></div>
 

@@ -14,8 +14,9 @@ After cloning the project, import the database using the following steps:
 
 ## Option 1: Using phpMyAdmin
 
-1. Go to the **Import** tab and choose the `Volaria.sql` file.
-2. Click **Go** to import the database.
+1. Create database named `Volaria`
+2. Go to the **Import** tab and choose the `Volaria.sql` file.
+3. Click **Go** to import the database.
 
 ## Database Structure
 

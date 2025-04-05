@@ -378,6 +378,7 @@ section.flights-results-header {
 .flights-results-options {
     width: 200px;
     background-color: var(--lapis-lazuli);
+    color: white;
 }
 
 .flights-list {

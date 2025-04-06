@@ -38,7 +38,15 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
         const sortBy = sortSelect.value;
         
         const sortedFlights = [...flightsList].sort((a, b) => {
-            return sortBy === "cheapest" ? a.price.grandTotal - b.price.grandTotal : getSortDuration(a.itineraries[0].duration) - getSortDuration(b.itineraries[0].duration);
+
+            if (a.itineraries.length>1) {
+                // Calculates the duration of depart and return
+                return sortBy === "cheapest" ? a.price.grandTotal - b.price.grandTotal : (getSortDuration(a.itineraries[0].duration)+getSortDuration(a.itineraries[1].duration)) - (getSortDuration(b.itineraries[0].duration)+getSortDuration(b.itineraries[1].duration));
+            } else {
+                // Calculates the duration of one way trip
+                return sortBy === "cheapest" ? a.price.grandTotal - b.price.grandTotal : getSortDuration(a.itineraries[0].duration) - getSortDuration(b.itineraries[0].duration);    
+            }
+
         })
 
         // This is to reset flightsContainer when there's a change in the sort preferences
@@ -124,6 +132,8 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
                     stopsText.textContent = `Direct`;
                     stopsText.style.color = "green";
 
+                    singleFlightResult.setAttribute("data-stops", "0")
+
                     createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",stopsText);
 
                     //console.log(`Diretto ${getDuration(intinerary.duration)}`);
@@ -137,6 +147,8 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
                     const fullStopsContainer = document.createElement("span");
                     fullStopsContainer.appendChild(stopsText);
                     fullStopsContainer.append(` ` + intinerary.segments[0].arrival.iataCode);
+
+                    singleFlightResult.setAttribute("data-stops", "1")
 
                     createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",fullStopsContainer);
 
@@ -152,6 +164,7 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
                     fullStopsContainer.appendChild(stopsText);
                     fullStopsContainer.append(` ` + stopsList)
 
+                    singleFlightResult.setAttribute("data-stops", "2")
 
                     createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",fullStopsContainer);
 
@@ -173,7 +186,35 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 
 });
 
+// To filter flights based on number of stops through checkboxes (direct, 1 stop, 2+ stops)
+document.querySelectorAll('.filter').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      const selectedFilters = Array.from(document.querySelectorAll('.filter:checked')).map(cb => cb.value);
+      filterFlights(selectedFilters);
+    });
+});
 
+// To filter flights based on number of stops through checkboxes (direct, 1 stop, 2+ stops)
+function filterFlights(filters) {
+
+    const flights = document.querySelectorAll('.single-flight-result');
+
+    if (filters.length === 0) {
+        flights.forEach(flight => {
+        flight.style.display = '';
+        });
+        return;
+    }
+
+    flights.forEach(flight => {
+        const stops = flight.getAttribute('data-stops');
+        if (filters.includes(stops) || (stops >= 2 && filters.includes('2'))) {
+            flight.style.display = '';
+        } else {
+            flight.style.display = 'none';
+        }
+    });
+}
 
 // To get the time from "YYYY-MM-DDTHH:mm:ss" to "HH:mm"    e.g."2025-04-28T13:00:00" to "13:00"
 function getTime(dateTime) {
@@ -261,7 +302,7 @@ function appendContent(element, content) {
     }
 }
 
-// Sets each select div to redirect on click to the selected flight, retrieving the search parameters and the flight ID of that search
+// Sets each singleFlightResult div to redirect on click to the selected flight, retrieving the search parameters and the flight ID of that search
 function createDivSelectFlight(parentElement, parentClass, childClass1, childContent1, childClass2, childContent2,id_flight) {
     
     const parentDiv = document.createElement("div");
@@ -278,10 +319,13 @@ function createDivSelectFlight(parentElement, parentClass, childClass1, childCon
 
     document.addEventListener("click", function (event) {
 
-        if (event.target.closest(".buttonSelect-flights-list")) {
-            let selectDiv = event.target.closest(".buttonSelect-flights-list");
+        if (event.target.closest(".single-flight-result")) {
+
+            let singleFlightResult = event.target.closest(".single-flight-result");
+
+            let selectDiv = singleFlightResult.querySelector(".buttonSelect-flights-list");
             let flightId = selectDiv.getAttribute("id_flight");
-    
+            
             if (flightId) {
                 let urlParams = new URLSearchParams(window.location.search);
                 window.location.href = `flight-details.php?flight_id=${flightId}&${urlParams.toString()}`;

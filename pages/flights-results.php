@@ -62,10 +62,21 @@ require_once __DIR__.'/../includes/head.php';
     <section class="flights-results-container">
 
         <div class="flights-results-options">
-            <p>To do:</p>
-            <p>- avvicinare divs results tra loro</p>
-            <p>- rendere cliccabile tutta la div result</p>
-            <p>- dare ombra alla div con hover</p>
+            <div class="flights-filters-container">
+                <h4>Stops</h4>
+                <label>
+                    <input type="checkbox" class="filter" value="0"> Direct
+                </label>
+                <label>
+                    <input type="checkbox" class="filter" value="1"> 1 stop
+                </label>
+                <label>
+                    <input type="checkbox" class="filter" value="2"> 2+ stops
+                </label>
+            </div>
+            <div class="departure-time-filter-container">
+                
+            </div>
         </div>
 
         <div class="flights-list"></div>

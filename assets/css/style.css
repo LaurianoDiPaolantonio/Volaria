@@ -376,16 +376,27 @@ section.flights-results-header {
 }
 
 .flights-results-options {
-    width: 200px;
+    width: 350px;
     background-color: var(--lapis-lazuli);
     color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.flights-filters-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 60px 0 30% 30%;
+    border-bottom: solid 1px var(--grigio-100);
+
 }
 
 .flights-list {
     padding: 40px;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
     min-height: 100vh;
 }
 
@@ -401,10 +412,10 @@ section.flights-results-header {
 
 .itineraries-container {
     border-right: solid 1px var(--grigio-500);
-    padding: 40px 80px 40px 40px;
+    padding: 40px 0 40px 90px;
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 30px;
     width: 500px;
 }
 
@@ -414,11 +425,17 @@ section.flights-results-header {
     gap: 10px;
     border-radius: 0.5rem;
     background-color: white;
+    transition: 0.2s;
+}
+
+.single-flight-result:hover {
+    cursor: pointer;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
 }
 
 .single-itinerary {
     display: flex;
-    gap: 50px;
+    gap: 30px;
 }
 
 .airlines-flights-list { 

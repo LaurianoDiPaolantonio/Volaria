@@ -64,18 +64,29 @@ require_once __DIR__.'/../includes/head.php';
         <div class="flights-results-options">
             <div class="flights-filters-container">
                 <h4>Stops</h4>
-                <label>
-                    <input type="checkbox" class="filter" value="0"> Direct
-                </label>
-                <label>
-                    <input type="checkbox" class="filter" value="1"> 1 stop
-                </label>
-                <label>
-                    <input type="checkbox" class="filter" value="2"> 2+ stops
-                </label>
+                <div class="form-check">
+                    <input class="form-check-input filter" type="checkbox" value="0" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Direct
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input filter" type="checkbox" value="1" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        1 stop
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input filter" type="checkbox" value="2" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        2+ stops
+                    </label>
+                </div>
             </div>
-            <div class="departure-time-filter-container">
-                
+            <div class="departure-time-slider-filter-container">
+                <h4>Departure times:</h4>
+                <div id="departureSlider"></div>
+                <p>Selected times: <span id="timeRangeLabel">00:00 - 23:00</span></p>
             </div>
         </div>
 
@@ -98,6 +109,7 @@ require_once __DIR__.'/../includes/head.php';
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.js"></script>
     <script src="../assets/js/flights_results.js"></script>
     <script src="../assets/js/script.js"></script>
 </body>

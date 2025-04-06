@@ -69,7 +69,6 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 
             // Once we have the flights sorted as we need them to be, we process and print the results
             const flightSegment = sortedFlights[i];
-            //console.log("--------------------------------");
 
             // Iterates through each itinerary (departure and, if present, return).
             flightSegment.itineraries.forEach(intinerary => {
@@ -79,6 +78,8 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
                 const singleItinerary = document.createElement("div");
                 singleItinerary.classList.add("single-itinerary");
                 itinerariesContainer.appendChild(singleItinerary);
+
+                singleItinerary.setAttribute("data-departure-time", getTime(intinerary.segments[0].departure.at));
 
                 createAndAppendDiv(singleItinerary, "airlines-flights-list", intinerary.segments[0].carrierCode);
 
@@ -136,7 +137,6 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 
                     createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",stopsText);
 
-                    //console.log(`Diretto ${getDuration(intinerary.duration)}`);
 
                 } else if (intinerary.segments.length == 2) {
 
@@ -152,7 +152,6 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 
                     createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",fullStopsContainer);
 
-                    //console.log(`1 stop ${intinerary.segments[0].arrival.iataCode} ${getDuration(intinerary.duration)}`);
 
                 } else if (intinerary.segments.length > 2) {
 
@@ -168,25 +167,24 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 
                     createDivWithTwoChildren(singleItinerary,"stopsContainer-flights-list","duration-flights-list",getDuration(intinerary.duration),"stops-flights-list",fullStopsContainer);
 
-                    // Prints the number of stops and all the airports where they occur
-                    //console.log(`${intinerary.segments.length-1} stops`);
-                    //console.log(stopsList);
                 }
                 
             });
 
             createDivSelectFlight(singleFlightResult,"priceContainer-flights-list","price-flights-list",flightSegment.price.grandTotal+"€","buttonSelect-flights-list","Select",flightSegment.id);
 
-            //console.log("Prezzo: "+flightSegment.price.grandTotal+"€");
-
-
         }
+
         loader.style.display = "none";
+
     }
 
 });
 
-// To filter flights based on number of stops through checkboxes (direct, 1 stop, 2+ stops)
+
+
+/* ======== To filter flights based on number of stops through checkboxes (direct, 1 stop, 2+ stops) ======== */
+
 document.querySelectorAll('.filter').forEach(checkbox => {
     checkbox.addEventListener('change', function() {
       const selectedFilters = Array.from(document.querySelectorAll('.filter:checked')).map(cb => cb.value);
@@ -194,7 +192,6 @@ document.querySelectorAll('.filter').forEach(checkbox => {
     });
 });
 
-// To filter flights based on number of stops through checkboxes (direct, 1 stop, 2+ stops)
 function filterFlights(filters) {
 
     const flights = document.querySelectorAll('.single-flight-result');
@@ -208,13 +205,78 @@ function filterFlights(filters) {
 
     flights.forEach(flight => {
         const stops = flight.getAttribute('data-stops');
-        if (filters.includes(stops) || (stops >= 2 && filters.includes('2'))) {
+        if (filters.includes(stops)) {
             flight.style.display = '';
         } else {
             flight.style.display = 'none';
         }
     });
 }
+
+
+
+/* ======== Range slider for filtering departure times based on selected preferences by the user, using noUiSlider ========*/
+
+const slider = document.getElementById('departureSlider');
+const label = document.getElementById('timeRangeLabel');
+
+noUiSlider.create(slider, {
+  start: [0, 23],
+  connect: true,
+  step: 1,
+  range: {
+    'min': 0,
+    'max': 23
+  },
+  format: {
+    to: value => Math.round(value),
+    from: value => Number(value)
+  }
+});
+
+slider.noUiSlider.on('update', (values) => {
+  const [min, max] = values.map(Number);
+  label.textContent = `${String(min).padStart(2, '0')}:00 - ${String(max).padStart(2, '0')}:00`;
+  filterByTime(min, max);
+});
+
+function filterByTime(min, max) {
+
+    // Selects all the divs containing the itineraries
+    const flightResults = document.querySelectorAll('.single-flight-result');
+
+    flightResults.forEach(result => {
+
+        // Iterate through the results to check if the departure time is within the selected time range
+
+        const itineraries = result.querySelectorAll(".single-itinerary");
+        let checkDisplay = true;
+
+        itineraries.forEach(intinerary => {
+
+            const hourStr = intinerary.getAttribute('data-departure-time')
+            const hour = parseInt(hourStr.split(":")[0]);
+            
+            if (hour < min || hour > max) {
+                checkDisplay = false;
+            }
+        });
+
+        // If one of the itineraries is not within the time range, the result is not displayed
+        if (checkDisplay) {
+            result.style.display = '';
+        } else {
+            result.style.display = 'none';
+        }
+
+    });
+
+}
+
+
+
+
+/* ======== Functions to populate the divs with flights results ========*/
 
 // To get the time from "YYYY-MM-DDTHH:mm:ss" to "HH:mm"    e.g."2025-04-28T13:00:00" to "13:00"
 function getTime(dateTime) {

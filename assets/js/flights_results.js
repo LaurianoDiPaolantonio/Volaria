@@ -21,12 +21,14 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 .then(data => {
     console.log(data);
 
-    // To sort the results based on the user's selected preferences
-    const sortSelect = document.getElementById("sort-flights-list");
+    // 
 
     const flightsContainer = document.querySelector('.flights-list');
 
     const flightsList = data.data;
+
+    // To sort the results based on the user's selected preferences
+    const sortSelect = document.getElementById("sort-flights-list");
 
     sortSelect.addEventListener("change", updateFlightsList);
 
@@ -40,10 +42,10 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
         const sortedFlights = [...flightsList].sort((a, b) => {
 
             if (a.itineraries.length>1) {
-                // Calculates the duration of depart and return
+                // Calculate the duration of depart and return
                 return sortBy === "cheapest" ? a.price.grandTotal - b.price.grandTotal : (getSortDuration(a.itineraries[0].duration)+getSortDuration(a.itineraries[1].duration)) - (getSortDuration(b.itineraries[0].duration)+getSortDuration(b.itineraries[1].duration));
             } else {
-                // Calculates the duration of one way trip
+                // Calculate the duration of one way trip
                 return sortBy === "cheapest" ? a.price.grandTotal - b.price.grandTotal : getSortDuration(a.itineraries[0].duration) - getSortDuration(b.itineraries[0].duration);    
             }
 
@@ -81,7 +83,15 @@ fetch("http://127.0.0.1:5500/ProgettiCorsoPHP/Volaria/www/Volaria/classes/exampl
 
                 singleItinerary.setAttribute("data-departure-time", getTime(intinerary.segments[0].departure.at));
 
-                createAndAppendDiv(singleItinerary, "airlines-flights-list", intinerary.segments[0].carrierCode);
+                // Get airlines full name from the iata code provided by the API
+                fetch(`${window.location.origin}/volaria/public/endpoints/get_airlines.php?query=${intinerary.segments[0].carrierCode}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(airline => {
+                        createAndAppendDiv(singleItinerary, "airlines-flights-list", airline.name);
+                    });
+                })
+                .catch(error => console.error("Errore durante il fetch delle compagnie aeree:", error));
 
                 // Scan the departure and arrival of each itinerary
                 for (let i=0; i < intinerary.segments.length; i++) {
@@ -198,7 +208,7 @@ function filterFlights(filters) {
 
     if (filters.length === 0) {
         flights.forEach(flight => {
-        flight.style.display = '';
+            flight.style.display = '';
         });
         return;
     }
@@ -242,7 +252,7 @@ slider.noUiSlider.on('update', (values) => {
 
 function filterByTime(min, max) {
 
-    // Selects all the divs containing the itineraries
+    // Select all the divs containing the itineraries
     const flightResults = document.querySelectorAll('.single-flight-result');
 
     flightResults.forEach(result => {

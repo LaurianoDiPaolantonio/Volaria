@@ -65,20 +65,20 @@ require_once __DIR__.'/../includes/head.php';
             <div class="flights-filters-container">
                 <h4>Stops</h4>
                 <div class="form-check">
-                    <input class="form-check-input filter" type="checkbox" value="0" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
+                    <input class="form-check-input filter" type="checkbox" value="0" id="checkbox-direct">
+                    <label class="form-check-label" for="checkbox-direct">
                         Direct
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input filter" type="checkbox" value="1" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
+                    <input class="form-check-input filter" type="checkbox" value="1" id="checkbox-1-stop">
+                    <label class="form-check-label" for="checkbox-1-stop">
                         1 stop
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input filter" type="checkbox" value="2" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
+                    <input class="form-check-input filter" type="checkbox" value="2" id="checkbox-2-stops">
+                    <label class="form-check-label" for="checkbox-2-stops">
                         2+ stops
                     </label>
                 </div>

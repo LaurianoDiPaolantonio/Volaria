@@ -1,5 +1,4 @@
 :root {
-    --verde: #22C55E;
     --grigio-900: #2A3342;
     --grigio-500: #556987;
     --grigio-300: #BBC3CF;
@@ -45,8 +44,6 @@ body {
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
-    /*color: var(--grigio-900);*/
-    /*background-color: var(--powder-blue);*/
 }
 
 a {
@@ -105,6 +102,14 @@ input[type="date"] {
     border: none;
     outline: none;
     border-radius: 0.5rem;
+}
+
+.form-check-input {
+    cursor: pointer;
+}
+
+.form-check-label {
+    cursor: pointer;
 }
 
 
@@ -440,7 +445,7 @@ section.flights-results-header {
 
 .itineraries-container {
     border-right: solid 1px var(--grigio-500);
-    padding: 40px 0 40px 90px;
+    padding: 40px 0 40px 20px;
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -469,9 +474,10 @@ section.flights-results-header {
 .airlines-flights-list { 
     order: 1;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     color: var(--grigio-500);
+    width: 120px;
 }
 
 .departureContainer-flights-list { 
@@ -481,6 +487,7 @@ section.flights-results-header {
     flex-direction: column;
     justify-content: space-evenly;
     gap: 10px;
+    width: 50px;
 }
 
 .stopsContainer-flights-list { 
@@ -500,6 +507,7 @@ section.flights-results-header {
     flex-direction: column;
     justify-content: space-evenly;
     gap: 10px;
+    width: 50px;
 }
 
 .departure-flights-list{

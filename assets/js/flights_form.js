@@ -94,5 +94,5 @@ document.querySelector(".search_flights").addEventListener("submit", (event) => 
     window.location.href = "../pages/"+url;
 });
 
-// Displays today's date in the departure_date input
+// Display today's date in the departure_date input
 document.getElementById("departure-date").value = new Date().toISOString().split('T')[0];

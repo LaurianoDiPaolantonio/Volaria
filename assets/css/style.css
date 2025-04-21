@@ -65,6 +65,8 @@ ul {
 }
 
 
+
+
 /* ======================= INPUTS E SCROLLBARS ====================== */
 
 ::-webkit-scrollbar {
@@ -111,6 +113,8 @@ input[type="date"] {
 .form-check-label {
     cursor: pointer;
 }
+
+
 
 
 /*======================= HEADER ======================= */
@@ -190,6 +194,8 @@ ul.ul-login {
 }
 
 
+
+
 /* ======================= BURGER MENU ======================= */
 
 .burger-menu {
@@ -231,6 +237,8 @@ ul.ul-login {
 .open {
     visibility:visible;
 }
+
+
 
 
 /* ======================= SECTION HOMEPAGE SEARCH FLIGHTS CONTAINER ======================= */
@@ -358,6 +366,8 @@ form.search_flights{
 .search-flights-button button:hover {
     background-color: var(--lapis-lazuli);
 }
+
+
 
 
 /* ======================= FLIGHTS RESULTS PAGE ======================= */
@@ -550,6 +560,19 @@ section.flights-results-header {
 .buttonSelect-flights-list:hover {
     background-color: var(--cerulean);
 }
+
+
+
+
+/* ======================= FLIGHT DETAILS PAGE ======================= */
+
+.flight-details-header-container {
+    padding: 50px;
+    background-color: var(--space-cadet);
+}
+
+
+
 
 /* ======================= LOADER ANIMATION ======================= */ 
 

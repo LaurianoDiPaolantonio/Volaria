@@ -107,7 +107,6 @@ require_once __DIR__.'/../includes/head.php';
     ?>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="..\assets\js\flights_form.js"></script>
     <script src="..\assets\js\script.js"></script>
 </body>

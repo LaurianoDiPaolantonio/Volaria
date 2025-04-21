@@ -187,19 +187,28 @@ class AmadeusApi {
     }
 
     // searches flights based on user's inputs
-    public function searchFlights($origin, $destination, $date, $travelers) {
+    public function searchFlights($origin, $destination, $departureDate, $travelers, $returnDate) {
 
         // Controllo validità token
         $this->ensureValidToken();
 
         $url = "https://test.api.amadeus.com/v2/shopping/flight-offers";
-        $params = http_build_query([
-            "adults" => $travelers,
-            "departureDate" => $date,
-            "originLocationCode" => $origin,
-            "destinationLocationCode" => $destination,
-        ]);
-
+        if ($returnDate) {
+            $params = http_build_query([
+                "adults" => $travelers,
+                "departureDate" => $departureDate,
+                "returnDate" => $returnDate,
+                "originLocationCode" => $origin,
+                "destinationLocationCode" => $destination,
+            ]);
+        } else {
+            $params = http_build_query([
+                "adults" => $travelers,
+                "departureDate" => $departureDate,
+                "originLocationCode" => $origin,
+                "destinationLocationCode" => $destination,
+            ]);
+        }
         $ch = curl_init($url . "?" . $params);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [

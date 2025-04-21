@@ -108,7 +108,6 @@ require_once __DIR__.'/../includes/head.php';
     <div class="loader"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.js"></script>
     <script src="../assets/js/flights_results.js"></script>
     <script src="../assets/js/script.js"></script>
